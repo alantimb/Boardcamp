@@ -24,3 +24,21 @@ export async function findCustomers(req, res) {
     return res.status(500).send(err.message);
   }
 }
+
+export async function findCustomerById(req, res) {
+  const { id } = req.params;
+
+  try {
+    const customers = await db.query("SELECT * FROM customers WHERE id=$1", [
+      id,
+    ]);
+
+    if (customers.rows === 0) {
+      return res.status(404).send("oi");
+    }
+
+    return res.send(customers.rows[0]);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
