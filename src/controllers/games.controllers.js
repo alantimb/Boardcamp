@@ -19,7 +19,7 @@ export async function findGames(req, res) {
   try {
     const games = await db.query("SELECT * FROM games");
 
-    res.send(games.rows);
+    return res.send(games.rows);
   } catch (err) {
     return res.status(500).send(err.message);
   }
