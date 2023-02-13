@@ -4,7 +4,6 @@ import { customersSchema } from "../schemas/customers.schema.js";
 export async function customersValidation(req, res, next) {
   const customer = req.body;
 
-  console.log(customer)
   const { error } = customersSchema.validate(customer, { abortEarly: false });
 
   if (error) {
