@@ -33,11 +33,18 @@ export async function findCustomerById(req, res) {
       id,
     ]);
 
-    if (customers.rows === 0) {
-      return res.status(404).send("oi");
+    if (customers.rows.length === 0) {
+      return res.sendStatus(404);
     }
 
     return res.send(customers.rows[0]);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}
+
+export async function updateCustomer(req, res) {
+  try {
   } catch (err) {
     return res.status(500).send(err.message);
   }
