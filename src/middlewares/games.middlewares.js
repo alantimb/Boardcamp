@@ -17,7 +17,7 @@ export async function gamesValidation(req, res, next) {
       game.name,
     ]);
 
-    if (gameExist.rowCount !== 0) {
+    if (gameExist.rowCount > 0) {
       return res
         .status(409)
         .send("This game already exists. Please try another name.");
@@ -27,6 +27,6 @@ export async function gamesValidation(req, res, next) {
 
     next();
   } catch (err) {
-    return res.status(500).send("Internal server error.");
+    return res.status(500).send(err.message);
   }
 }
