@@ -37,27 +37,26 @@ export async function findRentals(req, res) {
   }
 }
 
-[
-  {
-    id: 1,
-    customerId: 1,
-    gameId: 1,
-    rentDate: "2021-06-20",
-    daysRented: 3,
-    returnDate: null, // troca pra uma data quando já devolvido
-    originalPrice: 4500,
-    delayFee: null,
-    customer: {
-      id: 1,
-      name: "João Alfredo",
-    },
-    game: {
-      id: 1,
-      name: "Banco Imobiliário",
-    },
-  },
-];
-
 // export async function createRental(req, res) {}
 
-export async function deleteRental(req, res) {}
+export async function deleteRental(req, res) {
+  const { id } = req.params;
+
+  try {
+    const rentalID = await db.query("SELECT * FROM rentals WHERE id=$1", [id]);
+
+    const rental = rentalID.rows[0];
+
+    if (rentalID.rowCount === 0) {
+      return res.sendStatus(404);
+    } else if (!rental.returnDate) {
+      return res.sendStatus(400);
+    }
+
+    await connectionDB.query("DELETE FROM rentals WHERE id=$1", [id]);
+
+    return res.sendStatus(200);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+}

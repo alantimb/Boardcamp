@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/rentals", rentalValidation, createRental);
 router.get("/rentals", findRentals);
-// router.post("/rentals/:id/return", returnGame);
+router.post("/rentals/:id/return", returnGame);
 router.delete("/rentals/:id", deleteRental);
 
 
