@@ -2,7 +2,7 @@ import { db } from "../database/database.connection.js";
 
 export async function createGame(req, res) {
   const game = res.locals.game;
-  console.log(game);
+
   try {
     await db.query(
       'INSERT INTO games (name, image, "stockTotal", "pricePerDay") VALUES ($1, $2, $3, $4)',
@@ -17,9 +17,9 @@ export async function createGame(req, res) {
 
 export async function findGames(req, res) {
   try {
-const games = await db.query("SELECT * FROM games")
+    const games = await db.query("SELECT * FROM games");
 
-res.send(games.rows)
+    res.send(games.rows);
   } catch (err) {
     return res.status(500).send(err.message);
   }
