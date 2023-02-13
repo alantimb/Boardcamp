@@ -2,7 +2,7 @@ import { db } from "../database/database.connection.js";
 
 export async function createCustomer(req, res) {
   const customer = res.locals.customer;
-  console.log(customer);
+
   try {
     await db.query(
       "INSERT INTO customers (name, phone, cpf, birthday) VALUES ($1, $2, $3, $4)",
@@ -44,7 +44,14 @@ export async function findCustomerById(req, res) {
 }
 
 export async function updateCustomer(req, res) {
+  const customer = res.locals.customer;
+  const { id } = req.params;
+
   try {
+    "UPDATE customers SET name=$1, phone=$2, cpf=$3, birthday=$4 WHERE id=$5",
+      [customer.name, customer.phone, customer.cpf, customer.birthday, id];
+
+    return res.sendStatus(200);
   } catch (err) {
     return res.status(500).send(err.message);
   }
